@@ -21,5 +21,7 @@ go build
 ## Running
 
 ```bash
-fancy-vaccert your-qr-image.png
+fancy-vaccert your-qr-image.png > output.html
 ```
+
+Open output.html in a modern browser of your choice and print the result, cut it out, and you're good to go.
