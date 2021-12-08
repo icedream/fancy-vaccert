@@ -12,7 +12,7 @@ Just do this the same way as any simple Go project:
 
 ```bash
 # simply fetch and compile with this:
-go install github.com/icedream/fancy-vaccert@latest
+go install github.com/icedream/fancy-vaccert@main
 
 # or if you cloned this repository and want to build from it:
 go build
