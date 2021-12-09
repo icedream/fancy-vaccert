@@ -6,61 +6,40 @@ import "fmt"
 import "encoding/json"
 
 // UnmarshalJSON implements json.Unmarshaler.
-func (j *PersonName) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["fnt"]; !ok || v == nil {
-		return fmt.Errorf("field fnt: required")
-	}
-	type Plain PersonName
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = PersonName(plain)
-	return nil
-}
-
-// Country of Vaccination / Test, ISO 3166 alpha-2 where possible
-type CountryVt string
-
-// UnmarshalJSON implements json.Unmarshaler.
 func (j *VaccinationEntry) UnmarshalJSON(b []byte) error {
 	var raw map[string]interface{}
 	if err := json.Unmarshal(b, &raw); err != nil {
 		return err
 	}
 	if v, ok := raw["ci"]; !ok || v == nil {
-		return fmt.Errorf("field ci: required")
+		return fmt.Errorf("field ci in VaccinationEntry: required")
 	}
 	if v, ok := raw["co"]; !ok || v == nil {
-		return fmt.Errorf("field co: required")
+		return fmt.Errorf("field co in VaccinationEntry: required")
 	}
 	if v, ok := raw["dn"]; !ok || v == nil {
-		return fmt.Errorf("field dn: required")
+		return fmt.Errorf("field dn in VaccinationEntry: required")
 	}
 	if v, ok := raw["dt"]; !ok || v == nil {
-		return fmt.Errorf("field dt: required")
+		return fmt.Errorf("field dt in VaccinationEntry: required")
 	}
 	if v, ok := raw["is"]; !ok || v == nil {
-		return fmt.Errorf("field is: required")
+		return fmt.Errorf("field is in VaccinationEntry: required")
 	}
 	if v, ok := raw["ma"]; !ok || v == nil {
-		return fmt.Errorf("field ma: required")
+		return fmt.Errorf("field ma in VaccinationEntry: required")
 	}
 	if v, ok := raw["mp"]; !ok || v == nil {
-		return fmt.Errorf("field mp: required")
+		return fmt.Errorf("field mp in VaccinationEntry: required")
 	}
 	if v, ok := raw["sd"]; !ok || v == nil {
-		return fmt.Errorf("field sd: required")
+		return fmt.Errorf("field sd in VaccinationEntry: required")
 	}
 	if v, ok := raw["tg"]; !ok || v == nil {
-		return fmt.Errorf("field tg: required")
+		return fmt.Errorf("field tg in VaccinationEntry: required")
 	}
 	if v, ok := raw["vp"]; !ok || v == nil {
-		return fmt.Errorf("field vp: required")
+		return fmt.Errorf("field vp in VaccinationEntry: required")
 	}
 	type Plain VaccinationEntry
 	var plain Plain
@@ -71,104 +50,8 @@ func (j *VaccinationEntry) UnmarshalJSON(b []byte) error {
 	return nil
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *TestEntry) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["ci"]; !ok || v == nil {
-		return fmt.Errorf("field ci: required")
-	}
-	if v, ok := raw["co"]; !ok || v == nil {
-		return fmt.Errorf("field co: required")
-	}
-	if v, ok := raw["is"]; !ok || v == nil {
-		return fmt.Errorf("field is: required")
-	}
-	if v, ok := raw["sc"]; !ok || v == nil {
-		return fmt.Errorf("field sc: required")
-	}
-	if v, ok := raw["tg"]; !ok || v == nil {
-		return fmt.Errorf("field tg: required")
-	}
-	if v, ok := raw["tr"]; !ok || v == nil {
-		return fmt.Errorf("field tr: required")
-	}
-	if v, ok := raw["tt"]; !ok || v == nil {
-		return fmt.Errorf("field tt: required")
-	}
-	type Plain TestEntry
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = TestEntry(plain)
-	return nil
-}
-
-// Certificate Identifier, format as per UVCI: Annex 2 in
-// https://ec.europa.eu/health/sites/health/files/ehealth/docs/vaccination-proof_interoperability-guidelines_en.pdf
-type CertificateId string
-
-// UnmarshalJSON implements json.Unmarshaler.
-func (j *RecoveryEntry) UnmarshalJSON(b []byte) error {
-	var raw map[string]interface{}
-	if err := json.Unmarshal(b, &raw); err != nil {
-		return err
-	}
-	if v, ok := raw["ci"]; !ok || v == nil {
-		return fmt.Errorf("field ci: required")
-	}
-	if v, ok := raw["co"]; !ok || v == nil {
-		return fmt.Errorf("field co: required")
-	}
-	if v, ok := raw["df"]; !ok || v == nil {
-		return fmt.Errorf("field df: required")
-	}
-	if v, ok := raw["du"]; !ok || v == nil {
-		return fmt.Errorf("field du: required")
-	}
-	if v, ok := raw["fr"]; !ok || v == nil {
-		return fmt.Errorf("field fr: required")
-	}
-	if v, ok := raw["is"]; !ok || v == nil {
-		return fmt.Errorf("field is: required")
-	}
-	if v, ok := raw["tg"]; !ok || v == nil {
-		return fmt.Errorf("field tg: required")
-	}
-	type Plain RecoveryEntry
-	var plain Plain
-	if err := json.Unmarshal(b, &plain); err != nil {
-		return err
-	}
-	*j = RecoveryEntry(plain)
-	return nil
-}
-
-// EU Digital Covid Certificate
-type DCCCombinedSchemaJson struct {
-	// Date of Birth of the person addressed in the DCC. ISO 8601 date format
-	// restricted to range 1900-2099 or empty
-	Dob *string `json:"dob,omitempty"`
-
-	// Surname(s), forename(s) - in that order
-	Nam *PersonName `json:"nam,omitempty"`
-
-	// Recovery Group
-	R []RecoveryEntry `json:"r,omitempty"`
-
-	// Test Group
-	T []TestEntry `json:"t,omitempty"`
-
-	// Vaccination Group
-	V []VaccinationEntry `json:"v,omitempty"`
-
-	// Version of the schema, according to Semantic versioning (ISO,
-	// https://semver.org/ version 2.0.0 or newer)
-	Ver *string `json:"ver,omitempty"`
-}
+// Country of Vaccination / Test, ISO 3166 alpha-2 where possible
+type CountryVt string
 
 // EU eHealthNetwork: Value Sets for Digital Covid Certificates. version 1.0,
 // 2021-04-16, section 2.1
@@ -183,78 +66,195 @@ type Issuer string
 // Person name: Surname(s), forename(s) - in that order
 type PersonName struct {
 	// The surname or primary name(s) of the person addressed in the certificate
-	Fn *string `json:"fn,omitempty"`
+	Fn *string `json:"fn,omitempty" yaml:"fn,omitempty"`
 
 	// The surname(s) of the person, transliterated ICAO 9303
-	Fnt string `json:"fnt"`
+	Fnt string `json:"fnt" yaml:"fnt"`
 
 	// The forename(s) of the person addressed in the certificate
-	Gn *string `json:"gn,omitempty"`
+	Gn *string `json:"gn,omitempty" yaml:"gn,omitempty"`
 
 	// The forename(s) of the person, transliterated ICAO 9303
-	Gnt *string `json:"gnt,omitempty"`
+	Gnt *string `json:"gnt,omitempty" yaml:"gnt,omitempty"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *PersonName) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["fnt"]; !ok || v == nil {
+		return fmt.Errorf("field fnt in PersonName: required")
+	}
+	type Plain PersonName
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = PersonName(plain)
+	return nil
 }
 
 // Recovery Entry
 type RecoveryEntry struct {
 	// Unique Certificate Identifier, UVCI
-	Ci CertificateId `json:"ci"`
+	Ci CertificateId `json:"ci" yaml:"ci"`
 
 	// Country of Test
-	Co CountryVt `json:"co"`
+	Co CountryVt `json:"co" yaml:"co"`
 
 	// ISO 8601 complete date: Certificate Valid From
-	Df string `json:"df"`
+	Df string `json:"df" yaml:"df"`
 
 	// ISO 8601 complete date: Certificate Valid Until
-	Du string `json:"du"`
+	Du string `json:"du" yaml:"du"`
 
 	// ISO 8601 complete date of first positive NAA test result
-	Fr string `json:"fr"`
+	Fr string `json:"fr" yaml:"fr"`
 
 	// Certificate Issuer
-	Is Issuer `json:"is"`
+	Is Issuer `json:"is" yaml:"is"`
 
 	// Tg corresponds to the JSON schema field "tg".
-	Tg DiseaseAgentTargeted `json:"tg"`
+	Tg DiseaseAgentTargeted `json:"tg" yaml:"tg"`
 }
 
-// Test Entry
-type TestEntry struct {
-	// Unique Certificate Identifier, UVCI
-	Ci CertificateId `json:"ci"`
-
-	// Country of Test
-	Co CountryVt `json:"co"`
-
-	// Certificate Issuer
-	Is Issuer `json:"is"`
-
-	// RAT Test name and manufacturer
-	Ma *TestManf `json:"ma,omitempty"`
-
-	// NAA Test Name
-	Nm *string `json:"nm,omitempty"`
-
-	// Date/Time of Sample Collection
-	Sc string `json:"sc"`
-
-	// Testing Centre
-	Tc *string `json:"tc,omitempty"`
-
-	// Tg corresponds to the JSON schema field "tg".
-	Tg DiseaseAgentTargeted `json:"tg"`
-
-	// Test Result
-	Tr TestResult `json:"tr"`
-
-	// Type of Test
-	Tt TestType `json:"tt"`
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *RecoveryEntry) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["ci"]; !ok || v == nil {
+		return fmt.Errorf("field ci in RecoveryEntry: required")
+	}
+	if v, ok := raw["co"]; !ok || v == nil {
+		return fmt.Errorf("field co in RecoveryEntry: required")
+	}
+	if v, ok := raw["df"]; !ok || v == nil {
+		return fmt.Errorf("field df in RecoveryEntry: required")
+	}
+	if v, ok := raw["du"]; !ok || v == nil {
+		return fmt.Errorf("field du in RecoveryEntry: required")
+	}
+	if v, ok := raw["fr"]; !ok || v == nil {
+		return fmt.Errorf("field fr in RecoveryEntry: required")
+	}
+	if v, ok := raw["is"]; !ok || v == nil {
+		return fmt.Errorf("field is in RecoveryEntry: required")
+	}
+	if v, ok := raw["tg"]; !ok || v == nil {
+		return fmt.Errorf("field tg in RecoveryEntry: required")
+	}
+	type Plain RecoveryEntry
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = RecoveryEntry(plain)
+	return nil
 }
 
 // EU eHealthNetwork: Value Sets for Digital Covid Certificates. version 1.0,
 // 2021-04-16, section 2.8
 type TestManf string
+
+// Certificate Identifier, format as per UVCI: Annex 2 in
+// https://ec.europa.eu/health/sites/health/files/ehealth/docs/vaccination-proof_interoperability-guidelines_en.pdf
+type CertificateId string
+
+// EU Digital Covid Certificate
+type DCCCombinedSchemaJson struct {
+	// Date of Birth of the person addressed in the DCC. ISO 8601 date format
+	// restricted to range 1900-2099 or empty
+	Dob *string `json:"dob,omitempty" yaml:"dob,omitempty"`
+
+	// Surname(s), forename(s) - in that order
+	Nam *PersonName `json:"nam,omitempty" yaml:"nam,omitempty"`
+
+	// Recovery Group
+	R []RecoveryEntry `json:"r,omitempty" yaml:"r,omitempty"`
+
+	// Test Group
+	T []TestEntry `json:"t,omitempty" yaml:"t,omitempty"`
+
+	// Vaccination Group
+	V []VaccinationEntry `json:"v,omitempty" yaml:"v,omitempty"`
+
+	// Version of the schema, according to Semantic versioning (ISO,
+	// https://semver.org/ version 2.0.0 or newer)
+	Ver *string `json:"ver,omitempty" yaml:"ver,omitempty"`
+}
+
+// Test Entry
+type TestEntry struct {
+	// Unique Certificate Identifier, UVCI
+	Ci CertificateId `json:"ci" yaml:"ci"`
+
+	// Country of Test
+	Co CountryVt `json:"co" yaml:"co"`
+
+	// Certificate Issuer
+	Is Issuer `json:"is" yaml:"is"`
+
+	// RAT Test name and manufacturer
+	Ma *TestManf `json:"ma,omitempty" yaml:"ma,omitempty"`
+
+	// NAA Test Name
+	Nm *string `json:"nm,omitempty" yaml:"nm,omitempty"`
+
+	// Date/Time of Sample Collection
+	Sc string `json:"sc" yaml:"sc"`
+
+	// Testing Centre
+	Tc *string `json:"tc,omitempty" yaml:"tc,omitempty"`
+
+	// Tg corresponds to the JSON schema field "tg".
+	Tg DiseaseAgentTargeted `json:"tg" yaml:"tg"`
+
+	// Test Result
+	Tr TestResult `json:"tr" yaml:"tr"`
+
+	// Type of Test
+	Tt TestType `json:"tt" yaml:"tt"`
+}
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *TestEntry) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	if v, ok := raw["ci"]; !ok || v == nil {
+		return fmt.Errorf("field ci in TestEntry: required")
+	}
+	if v, ok := raw["co"]; !ok || v == nil {
+		return fmt.Errorf("field co in TestEntry: required")
+	}
+	if v, ok := raw["is"]; !ok || v == nil {
+		return fmt.Errorf("field is in TestEntry: required")
+	}
+	if v, ok := raw["sc"]; !ok || v == nil {
+		return fmt.Errorf("field sc in TestEntry: required")
+	}
+	if v, ok := raw["tg"]; !ok || v == nil {
+		return fmt.Errorf("field tg in TestEntry: required")
+	}
+	if v, ok := raw["tr"]; !ok || v == nil {
+		return fmt.Errorf("field tr in TestEntry: required")
+	}
+	if v, ok := raw["tt"]; !ok || v == nil {
+		return fmt.Errorf("field tt in TestEntry: required")
+	}
+	type Plain TestEntry
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	*j = TestEntry(plain)
+	return nil
+}
 
 // EU eHealthNetwork: Value Sets for Digital Covid Certificates. version 1.0,
 // 2021-04-16, section 2.9
@@ -267,34 +267,34 @@ type TestType string
 // Vaccination Entry
 type VaccinationEntry struct {
 	// Unique Certificate Identifier: UVCI
-	Ci CertificateId `json:"ci"`
+	Ci CertificateId `json:"ci" yaml:"ci"`
 
 	// Country of Vaccination
-	Co CountryVt `json:"co"`
+	Co CountryVt `json:"co" yaml:"co"`
 
 	// Dose Number
-	Dn DosePosint `json:"dn"`
+	Dn DosePosint `json:"dn" yaml:"dn"`
 
 	// ISO8601 complete date: Date of Vaccination
-	Dt string `json:"dt"`
+	Dt string `json:"dt" yaml:"dt"`
 
 	// Certificate Issuer
-	Is Issuer `json:"is"`
+	Is Issuer `json:"is" yaml:"is"`
 
 	// Marketing Authorization Holder - if no MAH present, then manufacturer
-	Ma VaccineMahManf `json:"ma"`
+	Ma VaccineMahManf `json:"ma" yaml:"ma"`
 
 	// vaccine medicinal product
-	Mp VaccineMedicinalProduct `json:"mp"`
+	Mp VaccineMedicinalProduct `json:"mp" yaml:"mp"`
 
 	// Total Series of Doses
-	Sd DosePosint `json:"sd"`
+	Sd DosePosint `json:"sd" yaml:"sd"`
 
 	// disease or agent targeted
-	Tg DiseaseAgentTargeted `json:"tg"`
+	Tg DiseaseAgentTargeted `json:"tg" yaml:"tg"`
 
 	// vaccine or prophylaxis
-	Vp VaccineProphylaxis `json:"vp"`
+	Vp VaccineProphylaxis `json:"vp" yaml:"vp"`
 }
 
 // EU eHealthNetwork: Value Sets for Digital Covid Certificates. version 1.0,
@@ -308,3 +308,36 @@ type VaccineMedicinalProduct string
 // EU eHealthNetwork: Value Sets for Digital Covid Certificates. version 1.0,
 // 2021-04-16, section 2.2
 type VaccineProphylaxis string
+
+// UnmarshalJSON implements json.Unmarshaler.
+func (j *DCCCombinedSchemaJson) UnmarshalJSON(b []byte) error {
+	var raw map[string]interface{}
+	if err := json.Unmarshal(b, &raw); err != nil {
+		return err
+	}
+	type Plain DCCCombinedSchemaJson
+	var plain Plain
+	if err := json.Unmarshal(b, &plain); err != nil {
+		return err
+	}
+	if len(plain.R) < 1 {
+		return fmt.Errorf("field %s length: must be >= %d", "r", 1)
+	}
+	if len(plain.R) > 1 {
+		return fmt.Errorf("field %s length: must be <= %d", "r", 1)
+	}
+	if len(plain.T) < 1 {
+		return fmt.Errorf("field %s length: must be >= %d", "t", 1)
+	}
+	if len(plain.T) > 1 {
+		return fmt.Errorf("field %s length: must be <= %d", "t", 1)
+	}
+	if len(plain.V) < 1 {
+		return fmt.Errorf("field %s length: must be >= %d", "v", 1)
+	}
+	if len(plain.V) > 1 {
+		return fmt.Errorf("field %s length: must be <= %d", "v", 1)
+	}
+	*j = DCCCombinedSchemaJson(plain)
+	return nil
+}
