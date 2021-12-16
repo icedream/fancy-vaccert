@@ -293,7 +293,7 @@ func createFromImage(img image.Image) (err error) {
 			content: ', ';
 		}
 		.meta .certificate {
-			font-size: 0.66em;
+			font-size: 0.64em;
 		}
 		</style>
 	</head>
