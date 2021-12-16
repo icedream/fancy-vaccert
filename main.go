@@ -224,7 +224,9 @@ func createFromImage(img image.Image) (err error) {
 	s := svg.New(qrsvg)
 
 	qs := goqrsvg.NewQrSVG(cleanQRCode, 1)
-	s.Startraw("width=\"6cm\"", "height=\"6cm\"", "class=\"qrimg\"", "shape-rendering=\"crispEdges\"", fmt.Sprintf("viewBox=\"%d %d %d %d\"", 0, 0, 97, 97))
+	// s.Startraw("width=\"100%\"", "height=\"100%\"", "class=\"qrimg\"", "shape-rendering=\"crispEdges\"", fmt.Sprintf("viewBox=\"%d %d %d %d\"", 0, 0, 100, 100))
+	s.Startraw("width=\"5cm\"", "height=\"5cm\"", "class=\"qrimg\"", "shape-rendering=\"crispEdges\"", fmt.Sprintf("viewBox=\"%d %d %d %d\"", 0, 0, 97, 97))
+	// qs.StartQrSVG(s)
 	qs.WriteQrSVG(s)
 
 	funcMap := template.FuncMap{
@@ -262,7 +264,7 @@ func createFromImage(img image.Image) (err error) {
 			background: #fff !important;
 			color: #000 !important;
 			font-family: "Open Sans", sans-serif;
-			font-size: 0.4cm;
+			font-size: 0.266cm;
 		}
 		.container {
 			border: gold .33em solid;
@@ -270,10 +272,10 @@ func createFromImage(img image.Image) (err error) {
 			margin: 0.33cm;
 			padding: 0.33cm;
 			display: flex;
-			max-width: 14cm;
-			width: 14cm;
-			max-height: 7cm;
-			height: 7cm;
+			max-width: 9.5cm;
+			width: 9.5cm;
+			max-height: 6cm;
+			height: 6cm;
 			flex-direction: row;
 			justify-content: center;
 			align-items: center;
